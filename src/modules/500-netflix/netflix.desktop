@@ -1,0 +1,14 @@
+[Desktop Entry]
+
+Type=Application
+
+Version=1.0
+Name=Netflix
+
+StartupWMClass=Netflix
+Exec=/usr/bin/google-chrome-stable --kiosk www.netflix.com
+StartupNotify=true
+Terminal=false
+Icon=netflix
+Categories=AudioVideo;Amusement
+

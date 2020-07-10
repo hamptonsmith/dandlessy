@@ -1,0 +1,16 @@
+[Desktop Entry]
+
+Type=Application
+
+Version=1.0
+Name=Chrome
+GenericName=Web Browser
+Comment=Access the Internet
+
+StartupWMClass=Chrome
+Exec=/usr/bin/google-chrome-stable %U
+StartupNotify=true
+Terminal=false
+Icon=google-chrome
+Categories=Network;WebBrowser
+

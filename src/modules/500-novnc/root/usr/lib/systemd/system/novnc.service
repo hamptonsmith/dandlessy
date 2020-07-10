@@ -1,0 +1,12 @@
+[Unit]
+Wants=x11vnc.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/novnc \
+        --listen 5902 \
+        --vnc localhost:5901 \
+        --web /usr/share/webapps/novnc/
+
+[Install]
+WantedBy=graphical.target

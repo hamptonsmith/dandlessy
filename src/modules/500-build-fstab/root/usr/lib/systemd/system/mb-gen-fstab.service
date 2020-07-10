@@ -1,0 +1,10 @@
+[Unit]
+After=mnt-fossil.mount
+Requires=mnt-fossil.mount
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/mb-gen-fstab
+
+[Install]
+WantedBy=multi-user.target

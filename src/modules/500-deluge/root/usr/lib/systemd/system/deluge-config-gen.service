@@ -1,0 +1,17 @@
+[Unit]
+Before=deluged.service
+
+[Service]
+Type=oneshot
+User=deluge
+Group=deluge
+ExecStart=/bin/mkdir -p /srv/deluge/.config/deluge
+ExecStart=/usr/bin/cp-mb-template /etc/deluge/core.conf.template \
+        /srv/deluge/.config/deluge/core.conf
+ExecStart=/usr/bin/cp-mb-template /etc/deluge/web.conf.template \
+        /srv/deluge/.config/deluge/web.conf
+ExecStart=/bin/chmod 600 /srv/deluge/.config/deluge/core.conf
+ExecStart=/bin/chmod 600 /srv/deluge/.config/deluge/web.conf
+
+[Install]
+RequiredBy=deluged.service

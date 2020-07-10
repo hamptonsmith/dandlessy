@@ -1,0 +1,22 @@
+#!/bin/bash
+
+MEDIA_BOX_USER=$(with-only-mb-env echo '$MEDIA_BOX_USER')
+STEAM_LIBRARY_TARGET=$(with-only-mb-env echo '$STEAM_LIBRARY_DIRECTORY' | \
+        sed 's/ \t//g')
+
+if [[ "$STEAM_LIBRARY_TARGET" == "" ]]; then
+    STEAM_LIBRARY_TARGET="/home/$MEDIA_BOX_USER/steam-apps"
+fi
+
+mkdir -p "$STEAM_LIBRARY_TARGET"
+chmod -R a+rwx "$STEAM_LIBRARY_TARGET"
+
+STEAM="/home/$MEDIA_BOX_USER/.local/share/Steam"
+STEAM_APPS_SOURCE="$STEAM/steamapps"
+
+mkdir -p "$STEAM"
+chown -R $MEDIA_BOX_USER:$MEDIA_BOX_USER "$STEAM"
+
+rm -rf "$STEAM_APPS_SOURCE" || true
+ln -s "$STEAM_LIBRARY_TARGET" "$STEAM_APPS_SOURCE"
+chown -h $MEDIA_BOX_USER:$MEDIA_BOX_USER "$STEAM_APPS_SOURCE"

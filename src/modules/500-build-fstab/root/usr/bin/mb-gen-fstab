@@ -1,0 +1,23 @@
+#!/bin/bash
+
+OLD_MD5=$(md5sum /etc/fstab | cut -d' ' -f1)
+
+if [[ ! -f /etc/fstab.base ]]; then
+    cp /etc/fstab /etc/fstab.base
+fi
+
+rm /etc/fstab
+cp /etc/fstab.base /etc/fstab
+
+while IFS= read -r VARLINE; do
+    VAR=$(echo $VARLINE | cut -d'=' -f2-)
+    
+    echo $VAR >> /etc/fstab
+done < <(/usr/bin/with-only-mb-env env | grep '^FSTAB_ENTRY_.*')
+
+NEW_MD5=$(md5sum /etc/fstab | cut -d' ' -f1)
+
+if [[ $OLD_MD5 != $NEW_MD5 ]]; then
+    systemctl daemon-reload
+    systemctl restart local-fs.target
+fi

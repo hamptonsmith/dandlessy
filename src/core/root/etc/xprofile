@@ -1,0 +1,56 @@
+#!/bin/bash
+
+function randomSlug() {
+    cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w $1 | head -n 1
+}
+
+export DAND_DIR="$HOME/.dandlessy"
+TIMESTAMP=$(date +%Y-%m-%d-%H-%M-%S)
+export DAND_LOG="$DAND_DIR/logs/$TIMESTAMP-$(randomSlug 3).log"
+
+mkdir -p "$DAND_DIR/logs"
+
+echo 'Dandlessy session start.' > "$DAND_LOG"
+
+export DAND_SESSION_DIR="$DAND_DIR/$XDG_SESSION_ID"
+
+mkdir -p "$DAND_SESSION_DIR"
+
+export PATH="$HOME/bin:$PATH"
+
+set -a
+source /mnt/fossil/dandlessy-config
+set +a
+
+export XPROFILE_ERR="$DAND_SESSION_DIR/xprofile-err"
+if [[ -f "$XPROFILE_ERR" ]]; then
+    rm "$XPROFILE_ERR"
+fi
+
+if [[ -d $HOME/.local/share/applications/ ]]; then
+    rm $HOME/.local/share/applications/*.desktop
+fi
+
+if [[ -d "$HOME/on-boot" ]]; then
+    echo 'on-boot scripts available' >> "$DAND_LOG"
+    cd "$HOME/on-boot"
+    
+    shopt -s nullglob
+    for script in *; do
+        echo "running on-boot $script" >> "$DAND_LOG"
+    
+        BROKE="$script"
+        /bin/bash "$script" &>> "$DAND_LOG" || break
+        BROKE=""
+    done
+    shopt -u nullglob
+    
+    XPROFILE_ERR="$DAND_SESSION_DIR/xprofile-err"
+    if [[ $BROKE != "" ]]; then
+        echo "on-boot script $BROKE failed." >> "$DAND_LOG"
+        echo "on-boot script $BROKE failed" >> "$XPROFILE_ERR"
+        exit 1
+    fi
+    
+    echo 'done with on-boots' >> "$DAND_LOG"
+fi

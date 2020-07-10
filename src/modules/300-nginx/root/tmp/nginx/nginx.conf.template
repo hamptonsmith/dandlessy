@@ -1,0 +1,14 @@
+error_log  /var/log/nginx/error.log;
+worker_processes 2;
+
+events { }
+
+http {
+    include mime.types;
+    
+    server {
+        listen 80;
+        
+        include {{locations-directory}}/*;
+    }
+}

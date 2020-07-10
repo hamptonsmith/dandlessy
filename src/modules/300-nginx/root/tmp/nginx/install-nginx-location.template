@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [[ "$1" != "" ]]; then
+    mv "$1" {{locations-directory}}
+else
+    echo 'Must provide a filename.'
+    exit 1
+fi

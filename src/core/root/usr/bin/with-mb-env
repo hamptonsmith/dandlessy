@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -a
+source /mnt/fossil/dandlessy-config
+set +a
+
+eval $@

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+cd src
+
+TOFILE="../install-mediabox.sh"
+
+echo '#!/bin/bash' > "$TOFILE"
+echo 'TMP_DIR=$(mktemp -d)' >> "$TOFILE"
+echo "echo '$(tar -c . | base64 --wrap=0)'"\
+        "| base64 --decode | tar -C \$TMP_DIR -xv" >> "$TOFILE"
+echo 'cd "$TMP_DIR"' >> "$TOFILE"
+echo './install.sh' >> "$TOFILE"
+

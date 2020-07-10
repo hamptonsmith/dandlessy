@@ -1,0 +1,10 @@
+#!/bin/bash
+
+MEDIA_BOX_USER=$(with-only-mb-env echo '$MEDIA_BOX_USER')
+
+sudo AUR_URL="$1" -u $MEDIA_BOX_USER -s <<'AS_MBU'
+    cd $(mktemp -d)
+    git clone "$AUR_URL" .
+    makepkg -is --noconfirm
+AS_MBU
+

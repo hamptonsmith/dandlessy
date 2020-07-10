@@ -1,0 +1,24 @@
+{
+    "file": 2,
+    "format": 1
+}{
+    "base": "/",
+    "cert": "ssl/daemon.cert",
+    "default_daemon": "localhost:58846",
+    "enabled_plugins": [],
+    "first_login": false,
+    "https": false,
+    "interface": "0.0.0.0",
+    "language": "",
+    "pkey": "ssl/daemon.pkey",
+    "port": 8112,
+    "pwd_salt": "63d5714e16c3b3351bfe5adb61b34e5b58ddfd08",
+    "pwd_sha1": "b54b319336897d71af2d2c5d113bdcea5db60ce9",
+    "session_timeout": 3600,
+    "sessions": {},
+    "show_session_speed": false,
+    "show_sidebar": true,
+    "sidebar_multiple_filters": true,
+    "sidebar_show_zero": false,
+    "theme": "gray"
+}
