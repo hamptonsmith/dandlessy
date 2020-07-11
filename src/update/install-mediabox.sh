@@ -93,10 +93,10 @@ function doInstall() {
     echo "$MEDIA_BOX_USER ALL=(ALL) NOPASSWD:ALL" \
             > "/etc/sudoers.d/100-$MEDIA_BOX_USER-all"
 
-    installModule /etc/mediabox-setup/core
+    installModule /root/mediabox-setup/core
     
-    if ls /etc/mediabox-setup/modules*; then
-        for module in /etc/mediabox-setup/modules/*; do
+    if ls /root/mediabox-setup/modules/*; then
+        for module in /root/mediabox-setup/modules/*; do
             installModule $module
         done
     fi
@@ -110,8 +110,8 @@ function doInstall() {
     rm /usr/share/applications/*.desktop &> /dev/null || true
     rm /usr/local/share/applications/*.desktop &> /dev/null || true
     
-    if ls /etc/mediabox-setup/modules*; then
-        for module in /etc/mediabox-setup/modules/*; do
+    if ls /root/mediabox-setup/modules/*; then
+        for module in /root/mediabox-setup/modules/*; do
             if ls "$module"/*.desktop; then
                 cp "$module"/*.desktop /usr/share/applications
             fi

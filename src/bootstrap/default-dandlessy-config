@@ -1,8 +1,11 @@
 # Variables that match FSTAB_ENTRY_* will be added to /etc/fstab on boot.
 #FSTAB_ENTRY_XYZ=...
 
+UPDATE_CMD='dandlessy-update'
+
+HOSTNAME={{hostname}}
+MAIN_PARTITION={{main-partition}}
 MEDIA_BOX_USER={{media-box-user}}
-ROOT_PARTITION={{root-partition}}
 
 TORRENT_COMPLETED_DIRECTORY=/home/$MEDIA_BOX_USER/media/completed
 TORRENT_FILE_DIRECTORY=/home/$MEDIA_BOX_USER/media/torrent-files

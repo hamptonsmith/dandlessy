@@ -1,13 +1,22 @@
 #!/bin/bash
 
-cd src
+function generateScript() {
+    pushd .
 
-TOFILE="../install-mediabox.sh"
+    cd "src/$1"
+    
+    TOFILE="../../$1.sh"
+    
+    echo '#!/bin/bash' > "$TOFILE"
+    echo 'TMP_DIR=$(mktemp -d)' >> "$TOFILE"
+    echo "echo '$(tar -c . | base64 --wrap=0)'" \
+            "| base64 --decode | tar -C \$TMP_DIR -xv" >> "$TOFILE"
+    echo 'cd "$TMP_DIR"' >> "$TOFILE"
+    echo "./$1.sh" >> "$TOFILE"
+    
+    popd
+}
 
-echo '#!/bin/bash' > "$TOFILE"
-echo 'TMP_DIR=$(mktemp -d)' >> "$TOFILE"
-echo "echo '$(tar -c . | base64 --wrap=0)'"\
-        "| base64 --decode | tar -C \$TMP_DIR -xv" >> "$TOFILE"
-echo 'cd "$TMP_DIR"' >> "$TOFILE"
-echo './install.sh' >> "$TOFILE"
+generateScript bootstrap
+generateScript update
 

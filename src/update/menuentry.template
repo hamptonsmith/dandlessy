@@ -1,0 +1,12 @@
+menuentry "{{label}}" --id {{id}} {
+    set the_boot_uuid={{boot-uuid}}
+    set the_root_uuid={{root-uuid}}
+
+    search --fs-uuid $the_root_uuid --set=root
+    search --fs-uuid $the_boot_uuid --set=grub_boot
+    
+    set grub_boot=($grub_boot)/boot
+
+    linux $grub_boot/vmlinuz-linux root=/dev/disk/by-uuid/$the_root_uuid ro
+    initrd $grub_boot/initramfs-linux.img
+}

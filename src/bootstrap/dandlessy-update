@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -e
+set -x
+
+echo Beginning update...
+
+wget --retry-connrefused --waitretry=2 -t 5 -q -O - \
+        http://10.0.2.2:8085/update.sh | /bin/bash
+
+echo Done!
