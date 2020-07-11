@@ -95,7 +95,6 @@ function doInstall() {
     # Our installer files.
     mkdir -p /mnt/guest/root/mediabox-setup
     cp -a . /mnt/guest/root/mediabox-setup
-    chmod a+x /mnt/guest/root/mediabox-setup/install-arch-chroot.sh
     
     ln -sf /mnt/guest/usr/share/zoneinfo/US/Eastern /mnt/guest/etc/localtime
     sed -i 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /mnt/guest/etc/locale.gen
