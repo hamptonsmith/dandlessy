@@ -11,6 +11,7 @@ function pacmanPackages() {
         dmenu \
         git \
         i3-wm \
+        jq \
         lightdm \
         lightdm-gtk-greeter \
         nano \
@@ -29,45 +30,47 @@ function randomSlug() {
 
 function installModule() {
     echo "Installing module $1..."
+    pushd .
+    cd "$1"
     
-    if [[ -d "$1/home" ]]; then
+    cp *.dandapp /etc/dandapps || true
+    
+    if [[ -d "home" ]]; then
         TMP_DIR=$(mktemp -d)
-        cp -a "$1"/home/* "$TMP_DIR"
+        cp -a home/* "$TMP_DIR"
         chown -R $MEDIA_BOX_USER:$MEDIA_BOX_USER "$TMP_DIR"
         cp -a "$TMP_DIR"/* "/home/$MEDIA_BOX_USER"
     fi
     
-    if [[ -d "$1/root" ]]; then
-        cp -a "$1"/root/* /
+    if [[ -d "root" ]]; then
+        cp -a root/* /
     fi
     
-    if [[ -d "$1/root-bin" ]]; then
-        pushd .
-        cd "$1/root-bin"
-        ls
-        for bin in *; do
-            cp "$bin" "/usr/bin/$bin"
-            chmod a+x "/usr/bin/$bin"
-            
-            # Allow `sudo` without a password for this script.
-            echo "$MEDIA_BOX_USER ALL=(root) NOPASSWD: /usr/bin/$bin" \
-                    > "/etc/sudoers.d/200-$MEDIA_BOX_USER-$bin"
-        done
-        popd
+    if [[ -d "root-bin" ]]; then
+        cd "root-bin"
+        if ls *; then
+            for bin in *; do
+                cp "$bin" "/usr/bin/$bin"
+                chmod a+x "/usr/bin/$bin"
+                
+                # Allow `sudo` without a password for this script.
+                echo "$MEDIA_BOX_USER ALL=(root) NOPASSWD: /usr/bin/$bin" \
+                        > "/etc/sudoers.d/200-$MEDIA_BOX_USER-$bin"
+            done
+        fi
+        cd ..
     fi
     
-    if [[ -f "$1/install.sh" ]]; then
-        pushd .
-        cd "$1"
+    if [[ -f "install.sh" ]]; then
         /bin/bash install.sh
         
         if [[ "$?" -ne "0" ]]; then
             echo 'Install script failed.'
             exit 1
         fi
-        
-        popd
     fi
+    
+    popd
 }
 
 function doInstall() {
@@ -92,7 +95,9 @@ function doInstall() {
     # this later to require a password like normal.
     echo "$MEDIA_BOX_USER ALL=(ALL) NOPASSWD:ALL" \
             > "/etc/sudoers.d/100-$MEDIA_BOX_USER-all"
-
+    
+    mkdir -p /etc/dandapps
+    
     installModule /root/mediabox-setup/core
     
     if ls /root/mediabox-setup/modules/*; then
@@ -106,17 +111,7 @@ function doInstall() {
     echo "$MEDIA_BOX_USER ALL=(ALL) ALL" \
             > "/etc/sudoers.d/100-$MEDIA_BOX_USER-all"
     
-    # Let's only use the desktop entries that are explicitly specified.
-    rm /usr/share/applications/*.desktop &> /dev/null || true
-    rm /usr/local/share/applications/*.desktop &> /dev/null || true
-    
-    if ls /root/mediabox-setup/modules/*; then
-        for module in /root/mediabox-setup/modules/*; do
-            if ls "$module"/*.desktop; then
-                cp "$module"/*.desktop /usr/share/applications
-            fi
-        done
-    fi
+    chmod -R a+r /etc/dandapps
 }
 
 doInstall

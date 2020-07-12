@@ -11,12 +11,15 @@ echo 'entering main loop' >> "$DAND_LOG"
 while [ 1 ]; do
     echo 'open app menu' >> "$DAND_LOG"
     
-    # rofi runs its command in the background, so we just echo what it wants
-    # to run so we can run it in-line.
-    COMMAND_TO_RUN=$(rofi -show drun -run-command "echo {cmd}")
-    "$HOME/bin/run-app.sh" "$COMMAND_TO_RUN" >> "$DAND_LOG"
+    APP_TO_RUN=$(dand-menu 2>> "$DAND_LOG")
     
-    echo 'control returned to app-run-loop' >> "$DAND_LOG"
+    if [[ "$?" == "0" && "$APP_TO_RUN" != "" ]]; then
+        echo "app $APP_TO_RUN selected"  >> "$DAND_LOG"
+        run-app "$APP_TO_RUN" >> "$DAND_LOG"
+        echo 'control returned to app-run-loop' >> "$DAND_LOG"
+    else
+        echo 'menu aborted or error' >> "$DAND_LOG"
+    fi
 done
 
 echo 'Fell out of app-run-loop?' >> "$DAND_LOG"

@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# Takes a virtual application path (or defaults to /) and generates a sequence
+# of ["<label>","<key>"] JSON pairs that should comprise a menu to display to
+# the user at a given level of the virtual application hierarchy.  Keys will be
+# dandapp specifiers prefixed with "da:", e.g. 
+# "da:file:/etc/dandapp/xterm.dandapp", or user interface directives prefixed
+# with "dir:", e.g., "dir:back".
+
+DIR="${1:-/}"
+if [[ "$DIR" != /* ]]; then
+    >&2 echo "Virtual application path must be absolute."
+    exit 1
+fi
+
+function generateMenuSection() {
+    while IFS='$\n' read -r APP; do
+        MENU_ITEM=$(dandapp-manip "$APP" item)
+        MENU_NOTE=$(dandapp-manip "$APP" note)
+        
+        if [[ "$MENU_NOTE" != "" ]]; then
+            MENU_ITEM="$MENU_ITEM <span weight=\"light\" size=\"small\">"
+            MENU_ITEM="$MENU_ITEM($MENU_NOTE)</span>"
+        fi
+        
+        MENU_ITEM_JSON=$(echo "$MENU_ITEM" | sed "$2" | jq --raw-input)
+        APP_JSON=$(echo "da:$APP" | jq --raw-input)
+        
+        echo "[$MENU_ITEM_JSON,$APP_JSON]" >> "$1"
+    done
+    
+    sort "$1" -o "$1"
+}
+
+APPS_LIST=$(mktemp)
+DIRS_LIST=$(mktemp)
+
+list-dandapps "$DIR" | generateMenuSection "$APPS_LIST"
+list-danddirs "$DIR" | generateMenuSection "$DIRS_LIST" 's/$/ \&gt;/g'
+
+if [[ "$DIR" != "/" ]]; then
+    echo '["&lt; Back","dir:back"]'
+fi
+
+cat "$APPS_LIST"
+
+if [[ -s "$DIRS_LIST" ]]; then
+    echo '["---", "dir:noop"]'
+    cat "$DIRS_LIST"
+fi
+
+rm "$APPS_LIST"
+rm "$DIRS_LITS"

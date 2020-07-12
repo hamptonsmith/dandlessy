@@ -1,0 +1,105 @@
+#!/bin/bash
+
+set -e
+
+function withDir() {
+    case "$2" in
+        item)
+            basename "$1"
+        ;;
+        note)
+        ;;
+        run)
+            dand-menu "$1"
+        ;;
+        *)
+            >&2 echo "Unknown command: $2"
+            exit 1
+        ;;
+    esac
+}
+
+function withFile() {
+    source "$1"
+    
+    case "$2" in
+        item)
+            if [[ "$(type -t run)" != "function" ]]; then
+                >&2 echo "Dandlessy app file:$1 has no 'renderMenuItem()' " \
+                        "function."
+                exit 1
+            fi
+            
+            renderMenuItem
+        ;;
+        note)          
+            if [[ "$(type -t renderNote)" == "function" ]]; then  
+                renderNote
+            fi
+        ;;
+        run)
+            if [[ "$(type -t run)" != "function" ]]; then
+                >&2 echo "Dandlessy app file:$1 has no 'run()' function."
+                exit 1
+            fi
+            
+            run
+        ;;
+        *)
+            >&2 echo "Unknown command: $2"
+            exit 1
+        ;;
+    esac
+}
+
+function withVar() {
+    VALUE=$(with-only-mb-env echo "\$$1")
+    
+    case "$2" in
+        item)
+            ITEM=$(echo "$VALUE" | cut -d';' -f1)
+            
+            if [[ "$ITEM" == "" ]]; then
+                >&2 echo "Danlessy app dcv:$1 has no menu item text."
+                exit 1
+            fi
+            
+            echo "$ITEM"
+        ;;
+        note)          
+            echo "$VALUE" | cut -d';' -f2
+        ;;
+        run)
+            CMD=$(echo "$VALUE" | cut -d';' -f3)
+            
+            if [[ "$CMD" == "" ]]; then
+                >&2 echo "Danlessy app dcv:$1 has no command."
+                exit 1
+            fi
+            
+            eval "$CMD"
+        ;;
+        *)
+            >&2 echo "Unknown command: $2"
+            exit 1
+        ;;
+    esac
+}
+
+TYPE=$(echo "$1" | cut -d':' -f1)
+PAYLOAD=$(echo "$1" | cut -d':' -f2-)
+case "$TYPE" in
+    file)
+        withFile "$PAYLOAD" "$2"
+    ;;
+    dcv)
+        withVar "$PAYLOAD" "$2"
+    ;;
+    dir)
+        withDir "$PAYLOAD" "$2"
+    ;;
+    *)
+        >&2 echo "Unknown dandapp type specifier: $TYPE"
+        exit 1
+    ;;
+esac

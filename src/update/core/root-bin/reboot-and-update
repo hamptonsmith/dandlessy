@@ -1,4 +1,4 @@
 #!/bin/bash
 
-grub-reboot dandlessy-update --boot-directory /mnt/update/boot
-reboot now
+/usr/sbin/grub-reboot dandlessy-update --boot-directory /mnt/update/boot
+/sbin/reboot now

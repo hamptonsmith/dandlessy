@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Takes a dandapp name and runs it, blocking it until it completes.  If the app
+# exits with an error, displays an error dialog.
+
+echo "run-app: $1"
+
+if ! dandapp-manip "$1" run; then
+    $APP_NAME=$(dandap-manip "$1" item)
+    zenity --error \
+            --message "$APP_NAME exited with an error.  See $DAND_LOG."
+fi
+
+echo "run-app done: $1"
+

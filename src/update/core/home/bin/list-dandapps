@@ -1,0 +1,21 @@
+#!/bin/bash
+
+DIR="${1:-/}"
+if [[ "$DIR" != /* ]]; then
+    >&2 echo "Virtual application path must be absolute."
+    exit 1
+fi
+
+if [[ "$DIR" != */ ]]; then
+    DIR="$DIR/"
+fi
+
+find /etc/dandapps$DIR -maxdepth 1 -name '*' -type f | sed -e 's/^/file:/'
+
+if [[ "$DIR" = "/" ]]; then
+    while IFS= read -r VARLINE; do
+        KEY=$(echo $VARLINE | cut -d'=' -f1)
+        echo "dcv:$KEY"
+    done < <(/usr/bin/with-only-mb-env env | grep '^DANDAPP_.*')
+fi
+

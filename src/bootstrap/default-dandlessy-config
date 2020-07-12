@@ -1,14 +1,24 @@
-# Variables that match FSTAB_ENTRY_* will be added to /etc/fstab on boot.
-#FSTAB_ENTRY_XYZ=...
-
+# Autorun when booting into the update partition.
 UPDATE_CMD='dandlessy-update'
 
-HOSTNAME={{hostname}}
+# Specifies the partition device where installs should be performed.  Probably
+# never any good reason to update this.
 MAIN_PARTITION={{main-partition}}
+
+# Allows you to change what you initially set during the bootstrap process.
+# Won't take effect until update.
+HOSTNAME={{hostname}}
 MEDIA_BOX_USER={{media-box-user}}
+
+# Variables that match FSTAB_ENTRY_* will be added to /etc/fstab on boot.
+#FSTAB_ENTRY_XYZ=...
 
 TORRENT_COMPLETED_DIRECTORY=/home/$MEDIA_BOX_USER/media/completed
 TORRENT_FILE_DIRECTORY=/home/$MEDIA_BOX_USER/media/torrent-files
 TORRENT_IN_PROGRESS_DIRECTORY=/home/$MEDIA_BOX_USER/media/in-progress
 
 STEAM_LIBRARY_DIRECTORY=/home/$MEDIA_BOX_USER/steam-apps
+
+# Variables that match DANDAPP_* will be added to the app menu.  Format is:
+# label;sublabel;bashcommand
+DANDAPP_NETFLIX='Netflix;;google-chrome-stable --kiosk https://www.netflix.com'

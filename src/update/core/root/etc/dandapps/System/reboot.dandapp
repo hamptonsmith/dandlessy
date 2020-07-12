@@ -1,0 +1,8 @@
+
+function renderMenuItem() {
+    echo 'Reboot'
+}
+
+function run() {
+    sudo reboot-now
+}

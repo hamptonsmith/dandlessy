@@ -1,0 +1,8 @@
+
+function renderMenuItem() {
+    echo 'Shutdown'
+}
+
+function run() {
+    sudo shutdown-now
+}

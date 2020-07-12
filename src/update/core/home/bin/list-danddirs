@@ -1,0 +1,14 @@
+#!/bin/bash
+
+DIR="${1:-/}"
+if [[ "$DIR" != /* ]]; then
+    >&2 echo "Virtual application path must be absolute."
+    exit 1
+fi
+
+if [[ "$DIR" != */ ]]; then
+    DIR="$DIR/"
+fi
+
+find /etc/dandapps$DIR* -maxdepth 1 -type d | sed -e 's/^/dir:/' | \
+        sed -e 's|/etc/dandapps||g'

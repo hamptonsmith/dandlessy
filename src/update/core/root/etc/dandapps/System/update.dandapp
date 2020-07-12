@@ -1,0 +1,14 @@
+
+function renderMenuItem() {
+    echo 'Update'
+}
+
+function run() {
+    PROMPT="This will reboot and update, which may take a while.  Are you sure?"
+
+    zenity --question --text="$PROMPT"
+    
+    if [[ "$?" = "0" ]]; then
+        sudo reboot-and-update
+    fi
+}

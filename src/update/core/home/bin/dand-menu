@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# Takes a virtual application path (or defaults to /) and displays the menu of
+# applications and folders in that path, permitting the user to navigate up and
+# down the nested virtual application structure until they make a
+# non-folder-navigation selection, then prints that selection.
+
+set -e
+
+DIR="${1:-/}"
+if [[ "$DIR" != /* ]]; then
+    >&2 echo "Virtual application path must be absolute."
+    exit 1
+fi
+
+# Note that this 'dir:' prefix (an app-specifier prefix) means "directory",
+# while the selection 'dir:' prefix in a few lines (a menu key prefix) means
+# "directive".
+APP_SPEC="dir:$DIR"
+
+while [[ "$APP_SPEC" = dir:* ]]; do
+    DIR=$(echo "$APP_SPEC" | cut -d':' -f2-)
+    
+    OLD_APP_SPEC="$APP_SPEC"
+    SELECTION=$(generate-menu "$DIR" | do-menu "$DIR")
+    
+    case "$SELECTION" in
+        dir:*)
+            # User interface directive.
+            case "$SELECTION" in
+                dir:back)
+                    APP_SPEC="dir:$(dirname $DIR)"
+                ;;
+                dir:noop)
+                    APP_SPEC="$OLD_APP_SPEC"
+                ;;
+                *)
+                    >&2 echo "Unknown directive: $SELECTION"
+                    exit 1
+                ;;
+            esac
+        ;;
+        da:*)
+            # Dandapp specifier.
+            APP_SPEC=$(echo "$SELECTION" | sed 's/^da://g')
+        ;;
+        *)
+            >&2 echo "Menu key with unknown prefix: $SELECTION"
+            exit 1
+        ;;
+    esac
+done
+
+echo "$APP_SPEC"

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+function run() {
+    /usr/bin/steam -bigpicture
+}
+
+function renderMenuItem() {
+    echo 'Steam'
+}
+
+function renderNote() {
+    echo 'Play Games'
+}

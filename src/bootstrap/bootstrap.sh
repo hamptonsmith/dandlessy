@@ -49,9 +49,9 @@ function doInstall() {
             mkpart "\"GRUB boot partition\"" fat32 1Mib 2Mib \
             set 1 bios_grub on \
             mkpart "\"swap partition\"" linux-swap 2MiB 3816MiB \
-            mkpart "\"fossil partition\"" ext4 3816MiB 5246MiB \
-            mkpart "\"update partition\"" ext4 5246MiB 10968MiB \
-            mkpart "\"main partition\"" ext4 10968MiB 100%
+            mkpart "\"fossil partition\"" ext4 3816MiB 7631MiB \
+            mkpart "\"update partition\"" ext4 7631MiB 13353MiB \
+            mkpart "\"main partition\"" ext4 13353MiB 100%
     
     mkswap "${DRIVE}2"
     

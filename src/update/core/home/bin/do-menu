@@ -1,0 +1,28 @@
+#!/bin/bash
+
+TITLE=$(cat /etc/hostname)
+TITLE="$TITLE$1"
+
+while IFS='$\n' read -r MENU_ENTRY; do
+    MENU_TEXT=$(echo "$MENU_ENTRY" | jq -r .[0])
+    MENU_VALUE=$(echo "$MENU_ENTRY" | jq -r .[1])
+    
+    if [[ "$MENU_LINES" != "" ]]; then
+        MENU_LINES="$MENU_LINES\n"
+        MENU_VALUES="$MENU_VALUES\n"
+    fi
+    
+    MENU_LINES="$MENU_LINES$MENU_TEXT"
+    MENU_VALUES="$MENU_VALUES$MENU_VALUE"
+done
+
+SELECTION=$(echo -e "$MENU_LINES" | \
+        rofi -p "$TITLE" -only-match -dmenu -markup-rows -format d)
+
+if [[ "$?" == "0" && "$SELECTION" != "" ]]; then
+    VALUE=$(echo -e "$MENU_VALUES" | sed "${SELECTION}q;d")
+    echo $VALUE
+    exit 0
+fi
+
+exit 1

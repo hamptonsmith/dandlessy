@@ -1,0 +1,13 @@
+#!/bin/bash
+
+function run() {
+    /usr/bin/google-chrome-stable
+}
+
+function renderMenuItem() {
+    echo 'Chrome'
+}
+
+function renderNote() {
+    echo 'Web Browser'
+}
