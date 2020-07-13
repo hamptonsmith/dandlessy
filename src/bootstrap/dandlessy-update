@@ -5,7 +5,19 @@ set -x
 
 echo Beginning update...
 
-wget --retry-connrefused --waitretry=2 -t 5 -q -O - \
-        http://10.0.2.2:8085/update.sh | /bin/bash
+source /mnt/fossil/dandlessy-config
+
+cd /root
+if [[ -d dandlessy ]]; then
+    git clone $UPDATE_REPO dandlessy
+fi
+
+cd dandlessy
+git fetch origin
+git reset --hard origin/master
+git clean -df
+
+cd src/update
+/bin/bash update.sh
 
 echo Done!

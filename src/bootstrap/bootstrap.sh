@@ -97,8 +97,8 @@ function doInstall() {
     mount "$UPDATE_PARTITION" /mnt/guest
     
     pacstrap -c /mnt/guest --cachedir "/mnt/fossil/pacman-cache" \
-            arch-install-scripts base grub linux linux-firmware networkmanager \
-            os-prober wget
+            arch-install-scripts base git grub linux linux-firmware \
+            networkmanager os-prober wget
     
     UPD_HOSTNAME=$(randomSlug 10)
     echo "$UPD_HOSTNAME" > /mnt/guest/etc/hostname

@@ -1,5 +1,6 @@
 # Autorun when booting into the update partition.
 UPDATE_CMD='dandlessy-update'
+UPDATE_REPO='git@github.com:hamptonsmith/dandlessy.git'
 
 # Specifies the partition device where installs should be performed.  Probably
 # never any good reason to update this.
