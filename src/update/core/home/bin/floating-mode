@@ -1,0 +1,13 @@
+#!/bin/bash
+
+window-floater &
+WF_PID=$!
+
+sleep 1
+
+eval "$@"
+RESULT=$?
+
+kill $WF_PID
+
+exit $RESULT

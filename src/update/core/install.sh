@@ -2,6 +2,10 @@
 set -e
 set -x
 
+sudo -su $MEDIA_BOX_USER <<'AS_MBU'
+    pip3 install i3ipc
+AS_MBU
+
 ###############
 ## i3 config ##
 ###############

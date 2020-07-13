@@ -1,0 +1,15 @@
+#!/usr/bin/env python3
+
+# While running, automatically floats all newly created windows.
+
+import i3ipc
+
+i3 = i3ipc.Connection()
+
+def on_window_open(i3, e):
+    if e.container.ipc_data['window_type'] == 'normal':
+        e.container.command('fullscreen enable')
+
+i3.on('window::new', on_window_open)
+
+i3.main()

@@ -16,6 +16,8 @@ function pacmanPackages() {
         lightdm-gtk-greeter \
         nano \
         openssh \
+        python \
+        python-pip \
         rofi \
         sudo \
         xorg-server \

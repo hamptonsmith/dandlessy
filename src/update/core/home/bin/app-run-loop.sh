@@ -2,6 +2,8 @@
 
 echo 'Starting app-run-loop.' >> "$DAND_LOG"
 
+window-watcher > $HOME/windowlog &
+
 if [[ -f "$XPROFILE_ERR" ]]; then
     zenity --error --message \
             "/etc/xprofile error:\n\n$(cat $XPROFILE_ERR)\n\nSee $DAND_LOG."
