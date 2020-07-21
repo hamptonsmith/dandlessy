@@ -1,11 +1,14 @@
 #!/bin/bash
 
+set -e
+set -x
+
 MEDIA_BOX_USER=$(with-only-mb-env echo '$MEDIA_BOX_USER')
 
-echo -e "\n\n$1" >> '/home/$MEDIA_BOX_USER/install-aur'
-ls -ld /tmp >> '/home/$MEDIA_BOX_USER/install-aur'
-lsattr -dlv /tmp >> '/home/$MEDIA_BOX_USER/install-aur'
-stat -c %a /tmp >> '/home/$MEDIA_BOX_USER/install-aur'
+echo -e "\n\n$1" >> "/home/$MEDIA_BOX_USER/install-aur"
+ls -ld /tmp >> "/home/$MEDIA_BOX_USER/install-aur"
+lsattr -dlv /tmp >> "/home/$MEDIA_BOX_USER/install-aur"
+stat -c %a /tmp >> "/home/$MEDIA_BOX_USER/install-aur"
 
 sudo AUR_URL="$1" -u $MEDIA_BOX_USER -s <<'AS_MBU'
     cd $(mktemp -d)
