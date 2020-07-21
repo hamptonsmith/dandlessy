@@ -5,20 +5,19 @@ set -x
 
 MEDIA_BOX_USER=$(with-only-mb-env echo '$MEDIA_BOX_USER')
 
-echo -e "\n\n$1" >> "/home/$MEDIA_BOX_USER/install-aur"
-ls -ld /tmp >> "/home/$MEDIA_BOX_USER/install-aur"
-stat -c %a /tmp >> "/home/$MEDIA_BOX_USER/install-aur"
-
 sudo AUR_URL="$1" -u $MEDIA_BOX_USER -s <<'AS_MBU'
     set -e
     set -x
     
-    whoami >> "$HOME/install-aur"
-    ls -ld /tmp >> "$HOME/install-aur"
-    stat -c %a /tmp >> "$HOME/install-aur"
+    TMP_DIR=$(mktemp -d)
     
-    cd $(mktemp -d)
+    if [[ "$TMP_DIR" == "" ]]; then
+        exit 1
+    fi
+    
+    cd $TMP_DIR
     git clone "$AUR_URL" .
     makepkg -is --noconfirm
+    rm -rf $TMP_DIR
 AS_MBU
 

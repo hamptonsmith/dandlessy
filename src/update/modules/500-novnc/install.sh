@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 install-aur https://aur.archlinux.org/novnc.git
 systemctl enable novnc.service
 
