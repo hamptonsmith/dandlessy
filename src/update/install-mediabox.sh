@@ -120,6 +120,12 @@ function doInstall() {
             > "/etc/sudoers.d/100-$MEDIA_BOX_USER-all"
     
     chmod -R a+r /etc/dandapps
+    
+    # Snapshot of installed packages in case we want to revert to this install
+    # in the future...
+    TIMESTAMP=$(date +%Y-%m-%d-%H-%M-%S)
+    mkdir -p /etc/fossil/snapshots/$TIMESTAMP/
+    pacman -Qet > /etc/fossil/snapshots/$TIMESTAMP/packages
 }
 
 doInstall
