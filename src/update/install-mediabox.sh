@@ -124,8 +124,8 @@ function doInstall() {
     # Snapshot of installed packages in case we want to revert to this install
     # in the future...
     TIMESTAMP=$(date +%Y-%m-%d-%H-%M-%S)
-    mkdir -p /etc/fossil/snapshots/$TIMESTAMP/
-    pacman -Qet > /etc/fossil/snapshots/$TIMESTAMP/packages
+    mkdir -p /mnt/fossil/snapshots/$TIMESTAMP/
+    pacman -Qet > /mnt/fossil/snapshots/$TIMESTAMP/packages
 }
 
 doInstall
