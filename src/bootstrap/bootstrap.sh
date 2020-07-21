@@ -84,6 +84,7 @@ function doInstall() {
     mkdir -p /mnt/fossil/pacman-cache
     
     cp default-dandlessy-config /mnt/fossil/dandlessy-config
+    cp known_hosts /mnt/fossil/known_hosts
     
     sed -i "s/{{hostname}}/$HOSTNAME/g" /mnt/fossil/dandlessy-config
         
@@ -98,7 +99,7 @@ function doInstall() {
     
     pacstrap -c /mnt/guest --cachedir "/mnt/fossil/pacman-cache" \
             arch-install-scripts base git grub linux linux-firmware \
-            networkmanager os-prober wget
+            networkmanager openssh os-prober wget
     
     UPD_HOSTNAME=$(randomSlug 10)
     echo "$UPD_HOSTNAME" > /mnt/guest/etc/hostname

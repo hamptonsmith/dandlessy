@@ -78,6 +78,9 @@ function installModule() {
 function doInstall() {
     mount /mnt/fossil
     
+    mkdir -p /etc/ssh
+    ln -s /mnt/fossil/known_hosts /etc/ssh/ssh_known_hosts
+    
     set -a
     source /mnt/fossil/dandlessy-config
     set +a

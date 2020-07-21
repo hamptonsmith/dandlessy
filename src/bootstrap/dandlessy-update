@@ -5,10 +5,18 @@ set -x
 
 echo Beginning update...
 
+until sleep 1 && ping -c1 github.com &> /dev/null; do :; done
+
+if [[ ! -L /etc/ssh/ssh_known_hosts ]]; then
+    rm /etc/ssh/ssh_known_hosts || true
+    mkdir -p /etc/ssh
+    ln -s /mnt/fossil/known_hosts /etc/ssh/ssh_known_hosts
+fi
+
 source /mnt/fossil/dandlessy-config
 
 cd /root
-if [[ -d dandlessy ]]; then
+if [[ ! -d dandlessy ]]; then
     git clone $UPDATE_REPO dandlessy
 fi
 
