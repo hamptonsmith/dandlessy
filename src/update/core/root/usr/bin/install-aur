@@ -10,6 +10,13 @@ ls -ld /tmp >> "/home/$MEDIA_BOX_USER/install-aur"
 stat -c %a /tmp >> "/home/$MEDIA_BOX_USER/install-aur"
 
 sudo AUR_URL="$1" -u $MEDIA_BOX_USER -s <<'AS_MBU'
+    set -e
+    set -x
+    
+    whoami >> "$HOME/install-aur"
+    ls -ld /tmp >> "$HOME/install-aur"
+    stat -c %a /tmp >> "$HOME/install-aur"
+    
     cd $(mktemp -d)
     git clone "$AUR_URL" .
     makepkg -is --noconfirm
