@@ -46,6 +46,9 @@ function installModule() {
     
     if [[ -d "root" ]]; then
         cp -a root/* /
+        
+        # Make sure we haven't overwritten /tmp permissions...
+        chmod a+trwx /tmp
     fi
     
     if [[ -d "root-bin" ]]; then
@@ -93,12 +96,6 @@ function doInstall() {
             /etc/lightdm/lightdm.conf
     
     systemctl enable lightdm.service
-    
-    # For reasons I don't fully understand, when I moved from using a
-    # self-installing script to pulling this down from git, /tmp started having
-    # bad permissions (despite no other changes).  So this hacks that to work
-    # but I'd love to know why...
-    chmod a+rwx /tmp
     
     # While we install modules, we want to allow hands-free running as the
     # media box user in particular, `makepkg` refuses to run as root, but will
