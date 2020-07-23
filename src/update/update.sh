@@ -75,7 +75,7 @@ function doInstall() {
             sed 's/{{id}}/dandlessy-main/g' | \
             sed "s/{{root-uuid}}/$MAIN_PARTITION_UUID/g" | \
             sed "s/{{boot-uuid}}/$UPDATE_PARTITION_UUID/g" | \
-            sed "s/{{microcode-img}}/$MICROCODE_IMG/g" \
+            sed "s|{{microcode-img}}|$MICROCODE_IMG|g" \
             >> /etc/grub.d/40_custom
     
     cat menuentry.template | \
@@ -83,7 +83,7 @@ function doInstall() {
             sed 's/{{id}}/dandlessy-update/g' | \
             sed "s/{{root-uuid}}/$UPDATE_PARTITION_UUID/g" | \
             sed "s/{{boot-uuid}}/$UPDATE_PARTITION_UUID/g" | \
-            sed "s/{{microcode-img}}/$MICROCODE_IMG/g" \
+            sed "s|{{microcode-img}}|$MICROCODE_IMG|g" \
             >> /etc/grub.d/40_custom
     
     sed -i 's/GRUB_DEFAULT=.*/GRUB_DEFAULT=saved/g' /etc/default/grub
