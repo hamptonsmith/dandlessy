@@ -96,6 +96,7 @@ function doInstall() {
             /etc/lightdm/lightdm.conf
     
     systemctl enable lightdm.service
+    systemctl enable sshd
     
     # While we install modules, we want to allow hands-free running as the
     # media box user in particular, `makepkg` refuses to run as root, but will

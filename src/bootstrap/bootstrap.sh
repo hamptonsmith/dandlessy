@@ -45,13 +45,36 @@ function doInstall() {
             "Enter media box user password" 0 0) \
             || exit 1    
     
-    parted --script "${DRIVE}" -- mklabel gpt \
-            mkpart "\"GRUB boot partition\"" fat32 1Mib 2Mib \
-            set 1 bios_grub on \
-            mkpart "\"swap partition\"" linux-swap 2MiB 3816MiB \
-            mkpart "\"fossil partition\"" ext4 3816MiB 7631MiB \
-            mkpart "\"update partition\"" ext4 7631MiB 13353MiB \
-            mkpart "\"main partition\"" ext4 13353MiB 100%
+    # swap: 3814 MiB
+    # fossil: 3815 MiB
+    # update: 5722 MiB
+    # main: remainder
+    
+    if ls /sys/firmware/efi/efivars &> /dev/null; then
+        BOOT_MODE="uefi"
+        
+        parted --script "${DRIVE}" -- mklabel gpt \
+                mkpart "\"EFI system partition\"" fat32 1MiB 513MiB \
+                set 1 esp on \
+                mkpart "\"swap partition\"" linux-swap 513MiB 4327MiB \
+                mkpart "\"fossil partition\"" ext4 4327MiB 8142MiB \
+                mkpart "\"update partition\"" ext4 8142MiB 13864MiB \
+                mkpart "\"main partition\"" ext4 13864MiB 100%
+        
+        mkfs.fat -F32 "${DRIVE}1"
+        
+        ADDITIONAL_PKGS="efibootmgr"
+    else
+        BOOT_MODE="bios"
+        
+        parted --script "${DRIVE}" -- mklabel gpt \
+                mkpart "\"GRUB boot partition\"" fat32 1MiB 2MiB \
+                set 1 bios_grub on \
+                mkpart "\"swap partition\"" linux-swap 2MiB 3816MiB \
+                mkpart "\"fossil partition\"" ext4 3816MiB 7631MiB \
+                mkpart "\"update partition\"" ext4 7631MiB 13353MiB \
+                mkpart "\"main partition\"" ext4 13353MiB 100%
+    fi
     
     mkswap "${DRIVE}2"
     
@@ -97,19 +120,23 @@ function doInstall() {
     mkdir -p /mnt/guest
     mount "$UPDATE_PARTITION" /mnt/guest
     
+    if [[ "$BOOT_MODE" == "uefi" ]]; then
+        mkdir -p /mnt/guest/boot/efi
+        mount "${DRIVE}1" /mnt/guest/boot/efi
+    fi
+    
     pacstrap -c /mnt/guest --cachedir "/mnt/fossil/pacman-cache" \
-            arch-install-scripts base git grub linux linux-firmware \
-            networkmanager openssh os-prober wget
+            arch-install-scripts base git grub intel-ucode linux \
+            linux-firmware networkmanager openssh os-prober wget \
+            $ADDITIONAL_PKGS
     
     UPD_HOSTNAME=$(randomSlug 10)
     echo "$UPD_HOSTNAME" > /mnt/guest/etc/hostname
     
-    genfstab -U /mnt/guest >> /mnt/guest/etc/fstab
-    
-    FOSSIL_PARTITION_UUID=$(blkid -s UUID -o value "$FOSSIL_PARTITION")
-    echo "UUID=$FOSSIL_PARTITION_UUID /mnt/fossil ext4 defaults 0 2" \
-            >> /mnt/guest/etc/fstab
     mkdir -p /mnt/guest/mnt/fossil
+    mount "$FOSSIL_PARTITION" /mnt/guest/mnt/fossil
+    
+    genfstab -U /mnt/guest >> /mnt/guest/etc/fstab
     
     UPD_HOSTS='/mnt/guest/etc/hosts'
     echo '127.0.0.1 localhost'                                > "$UPD_HOSTS"
@@ -139,10 +166,15 @@ function doInstall() {
             /mnt/guest/etc/pacman.conf
     
     # We need a slightly different GRUB install based on BIOS vs. UEFI.
-    if ls /sys/firmware/efi/efivars &> /dev/null; then
+    if [[ "$BOOT_MODE" == "uefi" ]]; then
         # UEFI
-        echo 'UEFI not currently supported.'
-        exit 1
+        
+        # Must be --removable to accomodate VirtualBox installs.
+        # https://superuser.com/a/1263839
+        
+        GRUB_INSTALL=$(echo \
+                'grub-install --target=x86_64-efi --efi-directory=/boot/efi' \
+                '--bootloader-id=GRUB --removable')
     else
         # BIOS
         GRUB_INSTALL="grub-install --target=i386-pc $DRIVE"

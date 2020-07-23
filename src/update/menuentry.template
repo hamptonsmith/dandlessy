@@ -8,5 +8,5 @@ menuentry "{{label}}" --id {{id}} {
     set grub_boot=($grub_boot)/boot
 
     linux $grub_boot/vmlinuz-linux root=/dev/disk/by-uuid/$the_root_uuid ro
-    initrd $grub_boot/initramfs-linux.img
+    initrd {{microcode-img}} $grub_boot/initramfs-linux.img
 }

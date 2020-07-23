@@ -66,18 +66,24 @@ function doInstall() {
     cp /etc/original-grub.d/00_header /etc/grub.d/00_header
     cp /etc/original-grub.d/40_custom /etc/grub.d/40_custom
     
+    if [[ -f /boot/intel-ucode.img ]]; then
+        MICROCODE_IMG='/boot/intel-ucode.img'
+    fi
+    
     cat menuentry.template | \
             sed 's/{{label}}/Dandlessy/g' | \
             sed 's/{{id}}/dandlessy-main/g' | \
             sed "s/{{root-uuid}}/$MAIN_PARTITION_UUID/g" | \
-            sed "s/{{boot-uuid}}/$UPDATE_PARTITION_UUID/g" \
+            sed "s/{{boot-uuid}}/$UPDATE_PARTITION_UUID/g" | \
+            sed "s/{{microcode-img}}/$MICROCODE_IMG/g" \
             >> /etc/grub.d/40_custom
     
     cat menuentry.template | \
             sed 's/{{label}}/Update Dandlessy/g' | \
             sed 's/{{id}}/dandlessy-update/g' | \
             sed "s/{{root-uuid}}/$UPDATE_PARTITION_UUID/g" | \
-            sed "s/{{boot-uuid}}/$UPDATE_PARTITION_UUID/g" \
+            sed "s/{{boot-uuid}}/$UPDATE_PARTITION_UUID/g" | \
+            sed "s/{{microcode-img}}/$MICROCODE_IMG/g" \
             >> /etc/grub.d/40_custom
     
     sed -i 's/GRUB_DEFAULT=.*/GRUB_DEFAULT=saved/g' /etc/default/grub
