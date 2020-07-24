@@ -6,16 +6,19 @@ set -x
 
 function pacmanPackages() {
     echo \
-        alsa-utils \
         base-devel \
         dmenu \
         git \
         i3-wm \
         jq \
+        libnotify \
         lightdm \
         lightdm-gtk-greeter \
         nano \
+        notification-daemon \
         openssh \
+        pulseaudio \
+        pulseaudio-alsa \
         python \
         python-pip \
         rofi \

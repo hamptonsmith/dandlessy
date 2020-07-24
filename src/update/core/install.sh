@@ -24,3 +24,14 @@ echo 'PKGDEST=/mnt/fossil/aur-packages' >> /etc/makepkg.conf
 mkdir -p /mnt/fossil/aur-packages
 chmod a+rw /mnt/fossil/aur-packages
 
+################
+## pulseaudio ##
+################
+
+echo 'load-module module-switch-on-connect' >> /etc/pulse.default.pa
+
+####################
+## pulseaudio-ctl ##
+####################
+
+install-aur https://aur.archlinux.org/pulseaudio-ctl.git

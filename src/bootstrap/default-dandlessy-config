@@ -23,3 +23,6 @@ STEAM_LIBRARY_DIRECTORY=/home/$MEDIA_BOX_USER/steam-apps
 # Variables that match DANDAPP_* will be added to the app menu.  Format is:
 # label;sublabel;bashcommand
 DANDAPP_NETFLIX='Netflix;;google-chrome-stable --kiosk https://www.netflix.com'
+
+# Get a list with: pacmd list-sinks | grep 'name:'
+#PULSE_AUDIO_DEFAULT_SINK=asdf
