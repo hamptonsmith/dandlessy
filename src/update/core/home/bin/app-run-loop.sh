@@ -9,6 +9,8 @@ if [[ -f "$XPROFILE_ERR" ]]; then
             "/etc/xprofile error:\n\n$(cat $XPROFILE_ERR)\n\nSee $DAND_LOG."
 fi
 
+/usr/bin/dunst &
+
 if [[ "$PULSE_AUDIO_DEFAULT_SINK" != "" ]]; then
     pacmd "set-default-source $PULSE_AUDIO_DEFAULT_SINK"
 fi

@@ -6,6 +6,7 @@ set -x
 
 function pacmanPackages() {
     echo \
+        accountsservice \
         base-devel \
         dmenu \
         dunst \
