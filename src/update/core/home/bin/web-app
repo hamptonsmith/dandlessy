@@ -1,3 +1,3 @@
 #!/bin/bash
 
-google-chrome-stable --class WebApp --app="$1"
+google-chrome-stable --class=WebApp --app="$1"
