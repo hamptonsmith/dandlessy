@@ -5,6 +5,15 @@ set -x
 
 echo Beginning update...
 
+source /mnt/fossil/dandlessy-config
+if [[ "$WIRELESS_SID" != "" ]]; then
+    if [[ "$WIRELESS_PASSWORD" != "" ]]; then
+        OPTIONAL_PASSWORD="password '$WIRELESS_PASSWORD'"
+    fi
+    
+    nmcli device wifi connect "$WIRELESS_SID" $OPTIONAL_PASSWORD
+fi
+
 until sleep 1 && ping -c1 github.com &> /dev/null; do :; done
 
 if [[ ! -L /etc/ssh/ssh_known_hosts ]]; then

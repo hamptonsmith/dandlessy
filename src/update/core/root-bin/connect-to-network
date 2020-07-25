@@ -1,19 +1,25 @@
 #!/bin/bash
 
+set -ex
+
 if [[ "$WIRELESS_SID" != "" ]]; then
     if [[ "$WIRELESS_PASSWORD" != "" ]]; then
         OPTIONAL_PASSWORD="password '$WIRELESS_PASSWORD'"
     fi
     
-    OUTPUT=$(nmcli device wifi connect "$WIRELESS_SID" $OPTIONAL_PASSWORD 2>&1)
+    OUTPUT=$(eval \
+            "nmcli device wifi connect '$WIRELESS_SID' $OPTIONAL_PASSWORD" 2>&1)
     
     if [[ "$?" != "0" ]]; then
         notify-send --urgency normal "Couldn't connect to wireless: $OUTPUT"
+        echo -e "$OUTPUT" > "/home/$MEDIA_BOX_USER/wireless.error"
         exit 1
     fi
 fi
 
-if ! ping google.com -c1 -d15; then
+timeout 15 <<<'until sleep 1 && ping -c1 google.com &> /dev/null; do :; done'
+
+if [[ "$?" != "0" ]]; then
     notify-send --urgency normal "No internet connection."
     exit 1
 fi
