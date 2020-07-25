@@ -10,6 +10,7 @@ if [[ -f "$XPROFILE_ERR" ]]; then
 fi
 
 /usr/bin/dunst &
+sudo connect-to-network &
 
 if [[ "$PULSE_AUDIO_DEFAULT_SINK" != "" ]]; then
     pacmd "set-default-source $PULSE_AUDIO_DEFAULT_SINK"

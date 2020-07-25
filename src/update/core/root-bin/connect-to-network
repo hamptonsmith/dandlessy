@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [[ "$WIRELESS_SID" != "" ]]; then
+    if [[ "$WIRELESS_PASSWORD" != "" ]]; then
+        OPTIONAL_PASSWORD="password '$WIRELESS_PASSWORD'"
+    fi
+    
+    OUTPUT=$(nmcli device wifi connect "$WIRELESS_SID" $OPTIONAL_PASSWORD 2>&1)
+    
+    if [[ "$?" != "0" ]]; then
+        notify-send --urgency normal "Couldn't connect to wireless: $OUTPUT"
+        exit 1
+    fi
+fi
+
+if ! ping google.com -c1 -d15; then
+    notify-send --urgency normal "No internet connection."
+    exit 1
+fi
+
+notify-send "Connected to the internet."

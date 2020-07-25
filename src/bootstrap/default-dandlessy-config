@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Autorun when booting into the update partition.
 UPDATE_CMD='dandlessy-update'
 UPDATE_REPO='https://github.com/hamptonsmith/dandlessy.git'
@@ -26,3 +28,6 @@ DANDAPP_NETFLIX='Netflix;;google-chrome-stable --kiosk https://www.netflix.com'
 
 # Get a list with: pacmd list-sinks | grep 'name:'
 #PULSE_AUDIO_DEFAULT_SINK=asdf
+
+#WIRELESS_SID=some-network-name
+#WIRELESS_PASSWORD=super-secret-password
