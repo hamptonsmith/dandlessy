@@ -8,6 +8,7 @@ function pacmanPackages() {
     echo \
         base-devel \
         dmenu \
+        dunst \
         git \
         i3-wm \
         jq \
@@ -15,7 +16,6 @@ function pacmanPackages() {
         lightdm \
         lightdm-gtk-greeter \
         nano \
-        notification-daemon \
         openssh \
         pulseaudio \
         pulseaudio-alsa \

@@ -29,6 +29,10 @@ chmod a+rw /mnt/fossil/aur-packages
 ################
 
 echo 'load-module module-switch-on-connect' >> /etc/pulse.default.pa
+sudo -su $MEDIA_BOX_USER <<'AS_MBU'
+    mkdir -p $HOME/.config/pulseaudio-ctl
+    cp /tmp/pulseaudio-ctl/config $HOME/.config/pulseaudio-ctl/config
+AS_MBU
 
 ####################
 ## pulseaudio-ctl ##
