@@ -1,0 +1,10 @@
+#!/bin/bash
+
+source /mnt/fossil/dandlessy-config
+
+ID=$(id -u $MEDIA_BOX_USER)
+
+sudo -u $MEDIA_BOX_USER \
+        DISPLAY=:0 \
+        DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$ID/bus \
+        notify-send $@

@@ -19,7 +19,7 @@ fi
 echo 'entering main loop' >> "$DAND_LOG"
 while [ 1 ]; do
     echo 'open app menu' >> "$DAND_LOG"
-    
+
     APP_TO_RUN=$(dand-menu 2>> "$DAND_LOG")
     
     if [[ "$?" == "0" && "$APP_TO_RUN" != "" ]]; then
