@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -e
 
 if [[ "$WIRELESS_SID" != "" ]]; then
     if [[ "$WIRELESS_PASSWORD" != "" ]]; then
@@ -17,7 +17,8 @@ if [[ "$WIRELESS_SID" != "" ]]; then
     fi
 fi
 
-timeout 15 <<<'until sleep 1 && ping -c1 google.com &> /dev/null; do :; done'
+timeout 15 /bin/bash \
+        <<<'until sleep 1 && ping -c1 google.com &> /dev/null; do :; done'
 
 if [[ "$?" != "0" ]]; then
     notify-send --urgency normal "No internet connection."
