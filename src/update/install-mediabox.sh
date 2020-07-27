@@ -24,6 +24,7 @@ function pacmanPackages() {
         python-pip \
         rofi \
         sudo \
+        wmctrl \
         xorg-server \
         xorg-xinit \
         xterm \
