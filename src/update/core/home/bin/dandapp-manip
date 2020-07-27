@@ -12,6 +12,8 @@ function withDir() {
         run)
             dand-menu "$1"
         ;;
+        stop)
+        ;;
         *)
             >&2 echo "Unknown command: $2"
             exit 1
@@ -44,6 +46,13 @@ function withFile() {
             fi
             
             run
+        ;;
+        stop)
+            if [[ "$(type -t stop)" != "function" ]]; then
+                gracefully-kill-windows
+            else
+                stop
+            fi
         ;;
         *)
             >&2 echo "Unknown command: $2"
@@ -78,6 +87,9 @@ function withVar() {
             fi
             
             eval "$CMD"
+        ;;
+        stop)
+            gracefully-kill-windows
         ;;
         *)
             >&2 echo "Unknown command: $2"

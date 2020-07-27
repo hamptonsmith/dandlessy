@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if [[ -f "$HOME/running-app" ]]; then
+    dandapp-manip $(cat "$HOME/running-app") stop
+fi

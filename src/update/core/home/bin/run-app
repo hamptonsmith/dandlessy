@@ -5,11 +5,15 @@
 
 echo "run-app: $1"
 
+echo "$1" > "$HOME/running-app"
+
 if ! dandapp-manip "$1" run; then
     $APP_NAME=$(dandap-manip "$1" item)
     zenity --error \
             --message "$APP_NAME exited with an error.  See $DAND_LOG."
 fi
+
+rm "$HOME/running-app"
 
 echo "run-app done: $1"
 

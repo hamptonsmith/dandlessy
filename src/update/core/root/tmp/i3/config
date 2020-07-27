@@ -45,3 +45,4 @@ for_window [class="WebApp"] \
         move position 0 0, \
         resize set width 101 ppt height 100 ppt
 
+bindsym Mod1+F4 exec kill-running-app
