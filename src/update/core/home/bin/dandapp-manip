@@ -69,7 +69,7 @@ function withVar() {
             ITEM=$(echo "$VALUE" | cut -d';' -f1)
             
             if [[ "$ITEM" == "" ]]; then
-                >&2 echo "Danlessy app dcv:$1 has no menu item text."
+                >&2 echo "Dandlessy app dcv:$1 has no menu item text."
                 exit 1
             fi
             
@@ -82,7 +82,7 @@ function withVar() {
             CMD=$(echo "$VALUE" | cut -d';' -f3)
             
             if [[ "$CMD" == "" ]]; then
-                >&2 echo "Danlessy app dcv:$1 has no command."
+                >&2 echo "Dandlessy app dcv:$1 has no command."
                 exit 1
             fi
             

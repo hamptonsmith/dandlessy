@@ -4,6 +4,10 @@ function run() {
     floating-mode /usr/bin/steam -bigpicture
 }
 
+function stop() {
+    killall steam
+}
+
 function renderMenuItem() {
     echo 'Steam'
 }
