@@ -45,8 +45,10 @@ function installModule() {
     if [[ -d "home" ]]; then
         TMP_DIR=$(mktemp -d)
         cp -a home/* "$TMP_DIR"
+        cp -a home/.* "$TMP_DIR"
         chown -R $MEDIA_BOX_USER:$MEDIA_BOX_USER "$TMP_DIR"
         cp -a "$TMP_DIR"/* "/home/$MEDIA_BOX_USER"
+        cp -a "$TMP_DIR"/.* "/home/$MEDIA_BOX_USER"
     fi
     
     if [[ -d "root" ]]; then
