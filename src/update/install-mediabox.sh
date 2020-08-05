@@ -10,6 +10,7 @@ function pacmanPackages() {
         base-devel \
         dmenu \
         dunst \
+        ethtool \
         git \
         i3-wm \
         jq \
