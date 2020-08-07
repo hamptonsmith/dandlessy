@@ -128,7 +128,7 @@ function doInstall() {
     cp /etc/shadow /mnt/guest/etc/shadow
     chmod 600 /mnt/guest/etc/shadow
 
-    #arch-chroot /mnt/guest /bin/bash /root/mediabox-setup/install-mediabox.sh
+    arch-chroot /mnt/guest /bin/bash /root/mediabox-setup/install-mediabox.sh
 
     grub-set-default 0
 

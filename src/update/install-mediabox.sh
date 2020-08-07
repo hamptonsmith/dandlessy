@@ -116,9 +116,13 @@ function doInstall() {
 
     installModule /root/mediabox-setup/core
 
+    SKIP_MODULE_ARRAY=($SKIP_MODULES)
+
     if ls /root/mediabox-setup/modules/*; then
         for module in /root/mediabox-setup/modules/*; do
-            installModule $module
+            if [[ ! " ${array[@]} " =~ " ${module} " ]]; then
+                installModule $module
+            fi
         done
     fi
 
