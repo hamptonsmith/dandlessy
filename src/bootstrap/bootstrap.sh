@@ -25,6 +25,8 @@ function doInstall() {
         exit 1
     fi
     
+    pacman -Sy --needed --noconfirm dialog
+    
     timedatectl set-ntp true
     
     DRIVE_LIST=$( \
