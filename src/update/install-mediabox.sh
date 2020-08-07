@@ -118,9 +118,13 @@ function doInstall() {
 
     SKIP_MODULE_ARRAY=($SKIP_MODULES)
 
+    echo "$SKIP_MODULES"
+    echo "${SKIP_MODULE_ARRAY[@]}"
+
     if ls /root/mediabox-setup/modules/*; then
         for module in /root/mediabox-setup/modules/*; do
-            if [[ ! " ${module} " =~ " ${SKIP_MODULE_ARRAY[@]} " ]]; then
+            BASE_MODULE=$(basename "$module")
+            if [[ ! " $BASE_MODULE " =~ " ${SKIP_MODULE_ARRAY[@]} " ]]; then
                 installModule $module
             fi
         done
