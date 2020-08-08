@@ -32,6 +32,8 @@ function doInstall() {
         exit 1
     fi
 
+    pacman -Syu --noconfirm
+
     source /mnt/fossil/dandlessy-config
 
     mkfs.ext4 -F "$MAIN_PARTITION"
