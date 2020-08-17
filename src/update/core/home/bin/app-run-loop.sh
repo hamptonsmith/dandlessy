@@ -19,15 +19,21 @@ if [[ "$PULSE_AUDIO_DEFAULT_SINK" != "" ]]; then
     pacmd "set-default-source $PULSE_AUDIO_DEFAULT_SINK"
 fi
 
-if [[ -d /mnt/fossil/wallpapers ]]; then
-    feh --bg-fill --randomize --recursive /mnt/fossil/wallpapers/* &
-fi
-
 echo 'entering main loop' >> "$DAND_LOG"
 while [ 1 ]; do
     echo 'open app menu' >> "$DAND_LOG"
 
+    if [[ -d /mnt/fossil/wallpapers ]]; then
+        feh --bg-fill --randomize --recursive /mnt/fossil/wallpapers/* &
+        FEH_PID="$!"
+    fi
+
     APP_TO_RUN=$(dand-menu 2>> "$DAND_LOG")
+
+    if [[ "$FEH_PID" !== "" ]]; then
+        kill $FEH_PID
+        FEH_PID=""
+    fi
 
     if [[ "$?" == "0" && "$APP_TO_RUN" != "" ]]; then
         echo "app $APP_TO_RUN selected"  >> "$DAND_LOG"
