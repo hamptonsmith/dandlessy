@@ -10,10 +10,17 @@ if [[ -f "$XPROFILE_ERR" ]]; then
 fi
 
 /usr/bin/dunst &
-sudo connect-to-network &
+
+if [[ -f /mnt/fossil/configureConnection ]]; then
+    /bin/bash /mnt/fossil/configureConnection &
+fi
 
 if [[ "$PULSE_AUDIO_DEFAULT_SINK" != "" ]]; then
     pacmd "set-default-source $PULSE_AUDIO_DEFAULT_SINK"
+fi
+
+if [[ -d /mnt/fossil/wallpapers ]]; then
+    feh --bg-fill --randomize --recursive /mnt/fossil/wallpapers/* &
 fi
 
 echo 'entering main loop' >> "$DAND_LOG"
@@ -21,7 +28,7 @@ while [ 1 ]; do
     echo 'open app menu' >> "$DAND_LOG"
 
     APP_TO_RUN=$(dand-menu 2>> "$DAND_LOG")
-    
+
     if [[ "$?" == "0" && "$APP_TO_RUN" != "" ]]; then
         echo "app $APP_TO_RUN selected"  >> "$DAND_LOG"
         run-app "$APP_TO_RUN" >> "$DAND_LOG"

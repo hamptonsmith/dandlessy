@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Networking:
+# Network config shared between normal and update mode should go in a file at
+# root of the fossil partition called `configureConnection`.  It will be called
+# at each boot-up and should be appropriately idempotent.
+
 # Autorun when booting into the update partition.
 UPDATE_CMD='dandlessy-update'
 UPDATE_REPO='https://github.com/hamptonsmith/dandlessy.git'
@@ -24,10 +29,7 @@ STEAM_LIBRARY_DIRECTORY=/home/$MEDIA_BOX_USER/steam-apps
 
 # Variables that match DANDAPP_* will be added to the app menu.  Format is:
 # label;sublabel;bashcommand
-DANDAPP_NETFLIX='Netflix;;google-chrome-stable --kiosk https://www.netflix.com'
+DANDAPP_NETFLIX='Netflix;;web-app https://www.netflix.com'
 
 # Get a list with: pacmd list-sinks | grep 'name:'
 #PULSE_AUDIO_DEFAULT_SINK=asdf
-
-#WIRELESS_SID=some-network-name
-#WIRELESS_PASSWORD=super-secret-password

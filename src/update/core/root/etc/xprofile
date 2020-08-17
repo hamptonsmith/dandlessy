@@ -34,23 +34,23 @@ fi
 if [[ -d "$HOME/on-boot" ]]; then
     echo 'on-boot scripts available' >> "$DAND_LOG"
     cd "$HOME/on-boot"
-    
+
     shopt -s nullglob
     for script in *; do
         echo "running on-boot $script" >> "$DAND_LOG"
-    
+
         BROKE="$script"
         /bin/bash "$script" &>> "$DAND_LOG" || break
         BROKE=""
     done
     shopt -u nullglob
-    
+
     XPROFILE_ERR="$DAND_SESSION_DIR/xprofile-err"
     if [[ $BROKE != "" ]]; then
         echo "on-boot script $BROKE failed." >> "$DAND_LOG"
         echo "on-boot script $BROKE failed" >> "$XPROFILE_ERR"
         exit 1
     fi
-    
+
     echo 'done with on-boots' >> "$DAND_LOG"
 fi

@@ -11,6 +11,7 @@ function pacmanPackages() {
         dmenu \
         dunst \
         ethtool \
+        feh \
         git \
         i3-wm \
         jq \

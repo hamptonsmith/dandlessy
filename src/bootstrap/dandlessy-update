@@ -6,15 +6,18 @@ set -x
 echo Beginning update...
 
 source /mnt/fossil/dandlessy-config
-if [[ "$WIRELESS_SID" != "" ]]; then
-    if [[ "$WIRELESS_PASSWORD" != "" ]]; then
-        OPTIONAL_PASSWORD="password '$WIRELESS_PASSWORD'"
-    fi
-    
-    nmcli device wifi connect "$WIRELESS_SID" $OPTIONAL_PASSWORD
+
+if [[ -f /mnt/fossil/configureConnection ]]; then
+    /bin/bash /mnt/fossil/configureConnection
 fi
 
-until sleep 1 && ping -c1 github.com &> /dev/null; do :; done
+echo -n 'Waiting for internet...'
+if ! ping -c 1 -w 30 -i 2 8.8.8.8 &> /dev/null; then
+    echo '...never found it. :('
+    exit 1
+fi
+
+echo 'found!'
 
 if [[ ! -L /etc/ssh/ssh_known_hosts ]]; then
     rm /etc/ssh/ssh_known_hosts || true
