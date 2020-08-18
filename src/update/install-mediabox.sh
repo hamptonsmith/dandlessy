@@ -27,6 +27,7 @@ function pacmanPackages() {
         python-pip \
         rofi \
         sudo \
+        unclutter \
         wmctrl \
         xorg-server \
         xorg-xinit \

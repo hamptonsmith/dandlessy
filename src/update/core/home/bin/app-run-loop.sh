@@ -10,6 +10,7 @@ if [[ -f "$XPROFILE_ERR" ]]; then
 fi
 
 /usr/bin/dunst &
+unclutter -grab &
 
 if [[ -f /mnt/fossil/configureConnection ]]; then
     /bin/bash /mnt/fossil/configureConnection &
