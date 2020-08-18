@@ -12,7 +12,7 @@ if [[ -f /mnt/fossil/configureConnection ]]; then
 fi
 
 echo -n 'Waiting for internet...'
-if ! ping -c 1 -w 30 -i 2 8.8.8.8 &> /dev/null; then
+if nm-online && ! ping -c 1 -w 30 -i 2 8.8.8.8 &> /dev/null; then
     echo '...never found it. :('
     exit 1
 fi

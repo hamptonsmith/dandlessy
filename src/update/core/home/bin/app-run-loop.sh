@@ -30,7 +30,7 @@ while [ 1 ]; do
 
     APP_TO_RUN=$(dand-menu 2>> "$DAND_LOG")
 
-    if [[ "$FEH_PID" !== "" ]]; then
+    if [[ "$FEH_PID" != "" ]]; then
         kill $FEH_PID
         FEH_PID=""
     fi
