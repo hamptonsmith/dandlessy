@@ -8,16 +8,16 @@ MEDIA_BOX_USER=$(with-only-mb-env echo '$MEDIA_BOX_USER')
 sudo AUR_URL="$1" -u $MEDIA_BOX_USER -s <<'AS_MBU'
     set -e
     set -x
-    
-    TMP_DIR=$(mktemp -d)
-    
+
+    mkdir -p $HOME/tmp
+    TMP_DIR=$(mktemp -d --tmpdir $HOME/tmp)
+
     if [[ "$TMP_DIR" == "" ]]; then
         exit 1
     fi
-    
+
     cd $TMP_DIR
     git clone "$AUR_URL" .
     makepkg -is --noconfirm
     rm -rf $TMP_DIR
 AS_MBU
-
