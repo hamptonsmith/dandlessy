@@ -11,21 +11,19 @@ if [[ -f /mnt/fossil/configureConnection ]]; then
     /bin/bash /mnt/fossil/configureConnection
 fi
 
-echo -n 'Waiting for internet...'
-if nm-online && ! ping -c 1 -w 30 -i 2 8.8.8.8 &> /dev/null; then
+echo 'Waiting for internet...'
+if ! nm-online || ! ping -c 1 -w 30 -i 2 8.8.8.8 &> /dev/null; then
     echo '...never found it. :('
     exit 1
 fi
 
-echo 'found!'
+echo '...found internet!'
 
 if [[ ! -L /etc/ssh/ssh_known_hosts ]]; then
     rm /etc/ssh/ssh_known_hosts || true
     mkdir -p /etc/ssh
     ln -s /mnt/fossil/known_hosts /etc/ssh/ssh_known_hosts
 fi
-
-source /mnt/fossil/dandlessy-config
 
 cd /root
 if [[ ! -d dandlessy ]]; then
@@ -37,11 +35,13 @@ if [[ "$UPDATE_BRANCH" = "" ]]; then
 fi
 
 cd dandlessy
+
+git fetch origin
+
 git reset --hard HEAD
 git clean -df
 git checkout $UPDATE_BRANCH
 
-git fetch origin
 git reset --hard origin/$UPDATE_BRANCH
 git clean -df
 
