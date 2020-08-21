@@ -32,9 +32,17 @@ if [[ ! -d dandlessy ]]; then
     git clone $UPDATE_REPO dandlessy
 fi
 
+if [[ "$UPDATE_BRANCH" = "" ]]; then
+    UPDATE_BRANCH="master"
+fi
+
 cd dandlessy
+git reset --hard HEAD
+git clean -df
+git checkout $UPDATE_BRANCH
+
 git fetch origin
-git reset --hard origin/master
+git reset --hard origin/$UPDATE_BRANCH
 git clean -df
 
 cd src/update
