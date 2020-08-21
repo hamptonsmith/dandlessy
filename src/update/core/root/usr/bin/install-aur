@@ -10,7 +10,7 @@ sudo AUR_URL="$1" -u $MEDIA_BOX_USER -s <<'AS_MBU'
     set -x
 
     mkdir -p $HOME/tmp
-    TMP_DIR=$(mktemp -d --tmpdir $HOME/tmp)
+    TMP_DIR=$(mktemp -d --tmpdir=$HOME/tmp)
 
     if [[ "$TMP_DIR" == "" ]]; then
         exit 1
