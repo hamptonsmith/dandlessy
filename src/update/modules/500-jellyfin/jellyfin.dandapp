@@ -1,0 +1,13 @@
+#!/bin/bash
+
+function run() {
+    web-app http://localhost:8096/web/index.html
+}
+
+function renderMenuItem() {
+    echo 'Jellyfin'
+}
+
+function renderNote() {
+    echo 'Watch Local Video'
+}
