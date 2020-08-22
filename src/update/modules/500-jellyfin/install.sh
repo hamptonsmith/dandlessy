@@ -7,6 +7,16 @@ cp /tmp/jellyfin/system.xml /var/lib/jellyfin/config
 chown jellyfin:jellyfin /var/lib/jellyfin/config
 chmod 644 /var/lib/jellyfin/config/system.xml
 
+# Jellyfin won't init if its config directory already exists :eyeroll:, so we start it, let it
+# generate its config file, then stop it and perform surgery in-place.
+systemctl start jellyfin.service
+sleep 2
+systemctl stop jellyfin.service
+sed -i 's:<BaseUrl />:<BaseUrl>/media</BaseUrl>:g' \
+		/var/lib/jellyfin/config/system.xml
+sed -i 's:<IsStartupWizardCompleted>false:<IsStartupWizardCompleted>true:g' \
+		/var/lib/jellyfin/config/system.xml
+
 systemctl enable jellyfin.service
 
 install-nginx-location /tmp/jellyfin/jellyfin.conf
