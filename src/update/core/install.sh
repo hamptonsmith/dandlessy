@@ -6,6 +6,16 @@ sudo -su $MEDIA_BOX_USER <<'AS_MBU'
     pip3 install i3ipc
 AS_MBU
 
+#####################
+## dirctory layout ##
+#####################
+
+mkdir -p /mnt/fossil/config
+chmod a+rwt /mnt/fossil/config
+
+mkdir -p /mnt/fossil/cache
+chmod a+rwt /mnt/fossil/cache
+
 ###############
 ## i3 config ##
 ###############
@@ -13,7 +23,7 @@ AS_MBU
 chmod a+r /tmp/i3/config
 sudo -su $MEDIA_BOX_USER <<'AS_MBU'
     mkdir -p $HOME/.config/i3
-    cp /tmp/i3/config $HOME/.config/i3/config    
+    cp /tmp/i3/config $HOME/.config/i3/config
 AS_MBU
 
 ####################
