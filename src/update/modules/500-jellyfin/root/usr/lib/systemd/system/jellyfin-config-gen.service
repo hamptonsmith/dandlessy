@@ -1,0 +1,11 @@
+[Unit]
+Before=jellyfin.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/cp-mb-template /etc/jellyfin/env.template \
+        /etc/conf.d/jellyfin
+ExecStart=/bin/chmod 644 /etc/conf.d/jellyfin
+
+[Install]
+RequiredBy=jellyfin.service

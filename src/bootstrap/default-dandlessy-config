@@ -24,8 +24,11 @@ MEDIA_BOX_USER={{media-box-user}}
 TORRENT_COMPLETED_DIRECTORY=/home/$MEDIA_BOX_USER/media/completed
 TORRENT_FILE_DIRECTORY=/home/$MEDIA_BOX_USER/media/torrent-files
 TORRENT_IN_PROGRESS_DIRECTORY=/home/$MEDIA_BOX_USER/media/in-progress
+MEDIA_CACHE_DIRECTORY=/home/$MEDIA_BOX_USER/media/cache
 
 STEAM_LIBRARY_DIRECTORY=/home/$MEDIA_BOX_USER/steam-apps
+
+
 
 # Variables that match DANDAPP_* will be added to the app menu.  Format is:
 # label;sublabel;bashcommand
