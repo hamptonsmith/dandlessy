@@ -6,9 +6,22 @@ source /mnt/fossil/dandlessy-config
 # internet.
 echo 'Waiting for internet...'
 
-if ! nm-online || ! ping -c 1 -w 30 -i 2 8.8.8.8 &> /dev/null; then
+if ! nm-online &> /dev/null; then
     echo '...never found it. :('
     exit 1
+fi
+
+TRIES=""
+while ! ping -c 1 -w 30 -i 2 8.8.8.8 &> /dev/null; then
+    echo $TRIES
+
+    sleep 2
+    TRIES="${TRIES}X"
+    
+    if [[ "${#TRIES}" == "15" ]]; then
+    	echo '...never found it. :('
+    	exit 1
+    fi
 fi
 
 echo '...found internet!'
