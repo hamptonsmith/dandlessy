@@ -1,0 +1,23 @@
+#!/bin/bash
+
+source /mnt/fossil/dandlessy-config
+
+# Docker may need to pull the jellyfin image, in which case we'll need
+# internet.
+echo 'Waiting for internet...'
+
+if ! nm-online || ! ping -c 1 -w 30 -i 2 8.8.8.8 &> /dev/null; then
+    echo '...never found it. :('
+    exit 1
+fi
+
+echo '...found internet!'
+
+/usr/bin/docker run \
+        --rm \
+        --volume /mnt/fossil/config/jellyfin/config:/config \
+        --volume /mnt/fossil/config/jellyfin/cache:/cache \
+        --volume $MEDIA_VIDEO_DIRECTORY:/media/video \
+        --user 1000:1000 \
+        --net=host \
+        jellyfin/jellyfin

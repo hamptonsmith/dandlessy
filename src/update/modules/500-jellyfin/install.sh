@@ -4,7 +4,6 @@ set -e
 
 source /mnt/fossil/dandlessy-config
 
-docker pull jellyfin/jellyfin
 systemctl enable jellyfin.service
 
 mkdir -p /mnt/fossil/config/jellyfin

@@ -2,14 +2,7 @@
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/with-mb-env '/usr/bin/docker run \
-        --rm \
-        --volume /mnt/fossil/config/jellyfin/config:/config \
-        --volume /mnt/fossil/config/jellyfin/cache:/cache \
-        --volume $MEDIA_VIDEO_DIRECTORY:/media/video \
-        --user 1000:1000 \
-        --net=host \
-        jellyfin/jellyfin'
+ExecStart=/usr/bin/jellyfin
 
 [Install]
 RequiredBy=multi-user.target
