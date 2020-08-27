@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 source /mnt/fossil/dandlessy-config
 
 docker pull jellyfin/jellyfin
