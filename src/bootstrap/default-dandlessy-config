@@ -29,8 +29,6 @@ MEDIA_VIDEO_DIRECTORY=/home/$MEDIA_BOX_USER/videos
 
 STEAM_LIBRARY_DIRECTORY=/home/$MEDIA_BOX_USER/steam-apps
 
-
-
 # Variables that match DANDAPP_* will be added to the app menu.  Format is:
 # label;sublabel;bashcommand
 DANDAPP_NETFLIX='Netflix;;web-app https://www.netflix.com'
