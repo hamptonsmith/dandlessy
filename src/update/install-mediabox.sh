@@ -29,6 +29,7 @@ function pacmanPackages() {
         sudo \
         unclutter \
         wmctrl \
+        xbindkeys \
         xorg-server \
         xorg-xinit \
         xterm \

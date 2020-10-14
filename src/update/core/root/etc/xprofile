@@ -54,3 +54,7 @@ if [[ -d "$HOME/on-boot" ]]; then
 
     echo 'done with on-boots' >> "$DAND_LOG"
 fi
+
+if [[ -f /mnt/fossil/xbindkeysrc ]]; then
+    xbindkeys -f /mnt/fossil/xbindkeysrc
+fi
