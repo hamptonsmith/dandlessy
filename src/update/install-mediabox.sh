@@ -30,6 +30,7 @@ function pacmanPackages() {
         unclutter \
         wmctrl \
         xbindkeys \
+        xdotool \
         xorg-server \
         xorg-xinit \
         xterm \
