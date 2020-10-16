@@ -21,6 +21,7 @@ function pacmanPackages() {
         nano \
         net-tools \
         openssh \
+        pacman-contrib \
         pulseaudio \
         pulseaudio-alsa \
         python \
@@ -100,6 +101,8 @@ function doInstall() {
     set +a
 
     pacman --noconfirm --needed -S $(pacmanPackages)
+
+    systemctl enable paccache.timer
 
     sed -i "s/#autologin-user=/autologin-user=$MEDIA_BOX_USER/g" \
             /etc/lightdm/lightdm.conf

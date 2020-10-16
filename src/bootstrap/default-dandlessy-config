@@ -35,3 +35,6 @@ DANDAPP_NETFLIX='Netflix;;web-app https://www.netflix.com'
 
 # Get a list with: pacmd list-sinks | grep 'name:'
 #PULSE_AUDIO_DEFAULT_SINK=asdf
+
+# Any extra i3 config
+#I3_CONFIG_EXTRAS='';

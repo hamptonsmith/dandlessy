@@ -23,7 +23,7 @@ chmod a+rwt /mnt/fossil/cache
 chmod a+r /tmp/i3/config
 sudo -su $MEDIA_BOX_USER <<'AS_MBU'
     mkdir -p $HOME/.config/i3
-    cp /tmp/i3/config $HOME/.config/i3/config
+    cp /tmp/i3/config $HOME/.config/i3/baseconfig
 AS_MBU
 
 ####################

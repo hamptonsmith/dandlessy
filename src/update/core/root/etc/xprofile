@@ -58,3 +58,10 @@ fi
 if [[ -f /mnt/fossil/xbindkeysrc ]]; then
     xbindkeys -f /mnt/fossil/xbindkeysrc
 fi
+
+if [[ -f $HOME/.config/i3/config ]]; then
+    rm $HOME/.config/i3/config
+fi
+
+cat $HOME/.config/i3/baseconfig > $HOME/.config/i3/config
+echo -e "$I3_CONFIG_EXTRAS" >> $HOME/.config/i3/config
