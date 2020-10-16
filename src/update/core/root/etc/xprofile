@@ -65,3 +65,7 @@ fi
 
 cat $HOME/.config/i3/baseconfig > $HOME/.config/i3/config
 echo -e "$I3_CONFIG_EXTRAS" >> $HOME/.config/i3/config
+
+if [[ -f /mnt/fossil/xmodmaprc ]]; then
+    xmodmap /mnt/fossil/xmodmaprc
+fi
