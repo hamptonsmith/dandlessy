@@ -25,7 +25,7 @@ function generateI3Config() {
     fi
 
     echo -e "\n# Source: I3_CONFIG_EXTRAS" >> $HOME/.config/i3/config
-    echo -e "I3_CONFIG_EXTRAS" >> $HOME/.config/i3/config
+    echo -e "$I3_CONFIG_EXTRAS" >> $HOME/.config/i3/config
 }
 
 export DAND_DIR="$HOME/.dandlessy"
