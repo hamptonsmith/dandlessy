@@ -16,16 +16,6 @@ chmod a+rwt /mnt/fossil/config
 mkdir -p /mnt/fossil/cache
 chmod a+rwt /mnt/fossil/cache
 
-###############
-## i3 config ##
-###############
-
-chmod a+r /tmp/i3/config
-sudo -su $MEDIA_BOX_USER <<'AS_MBU'
-    mkdir -p $HOME/.config/i3
-    cp /tmp/i3/config $HOME/.config/i3/baseconfig
-AS_MBU
-
 ####################
 ## makepkg config ##
 ####################

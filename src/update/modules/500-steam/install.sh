@@ -22,9 +22,6 @@ pacman -S --noconfirm steam ttf-liberation
 
 systemctl enable steam-link-download-dir.service
 
-echo 'for_window [class="Steam"] popup_during_fullscreen leave_fullscreen' \
-        >> "/home/$MEDIA_BOX_USER/.config/i3/config"
-
 # We want logins and two-factor authentications to persist between updates, so
 # we symlink Steam user directories onto the fossil record.  Steam makes it
 # challenging to just offload "user" files, so we're going to symlink quite a
@@ -40,9 +37,8 @@ sudo -u $MEDIA_BOX_USER -s <<AS_MBU
     mkdir -p /mnt/fossil/steam/dotlocal
     mkdir -p /mnt/fossil/steam/dotsteam
     mkdir -p "/home/$MEDIA_BOX_USER/.local/share"
-    
+
     ln -s "/mnt/fossil/steam/dotlocal" \
             "/home/$MEDIA_BOX_USER/.local/share/Steam"
     ln -s "/mnt/fossil/steam/dotsteam" "/home/$MEDIA_BOX_USER/.steam"
 AS_MBU
-

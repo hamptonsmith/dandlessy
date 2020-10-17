@@ -4,6 +4,30 @@ function randomSlug() {
     cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w $1 | head -n 1
 }
 
+function generateI3Config() {
+    mkdir -p $HOME/.config/i3
+    if [[ -f $HOME/.config/i3/config ]]; then
+        rm $HOME/.config/i3/config
+    fi
+
+    echo -e "# Do not edit.  Generated from $DAND_DIR/config/i3.conf.d/*\n" \
+            > $HOME/.config/i3/config
+
+    if [[ -d $DAND_DIR/config/i3.conf.d ]]; then
+        pushd .
+        cd $DAND_DIR/config/i3.conf.d
+        for part in *; do
+            echo -e "\n# Source: $DAND_DIR/config/i3.conf.d/$part" \
+                    >> $HOME/.config/i3/config
+            cat $part >> $HOME/.config/i3/config
+        done
+        popd
+    fi
+
+    echo -e "\n# Source: I3_CONFIG_EXTRAS" >> $HOME/.config/i3/config
+    echo -e "I3_CONFIG_EXTRAS" >> $HOME/.config/i3/config
+}
+
 export DAND_DIR="$HOME/.dandlessy"
 TIMESTAMP=$(date +%Y-%m-%d-%H-%M-%S)
 export DAND_LOG="$DAND_DIR/logs/$TIMESTAMP-$(randomSlug 3).log"
@@ -59,12 +83,7 @@ if [[ -f /mnt/fossil/xbindkeysrc ]]; then
     xbindkeys -f /mnt/fossil/xbindkeysrc
 fi
 
-if [[ -f $HOME/.config/i3/config ]]; then
-    rm $HOME/.config/i3/config
-fi
-
-cat $HOME/.config/i3/baseconfig > $HOME/.config/i3/config
-echo -e "$I3_CONFIG_EXTRAS" >> $HOME/.config/i3/config
+generateI3Config
 
 if [[ -f /mnt/fossil/xmodmaprc ]]; then
     xmodmap /mnt/fossil/xmodmaprc
