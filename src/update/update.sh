@@ -42,6 +42,17 @@ function doInstall() {
     MAIN_PARTITION_UUID=$(blkid -s UUID -o value "$MAIN_PARTITION")
 
     mkdir -p /mnt/fossil/pacman-cache
+
+    # pacman keys seem to like to get corrupted.  This block is a salt-the-earth
+    # solution based on
+    # https://www.cupoflinux.com/SBB/index.php/topic,2959.msg21642.html#msg21642
+    [[ -d /etc/pacman.d/gnpg/ ]] && rm -R /etc/pacman.d/gnupg/
+    [[ -d /root/.gnupg/ ]] && rm -R /root/.gnupg/
+    gpg --refresh-keys
+    pacman-key --init && pacman-key --populate archlinux
+    pacman-key --refresh-keys || echo 'An individual key error is ok...'
+
+    # Ok!  Time to install base linux operating system!
     pacstrap -c /mnt/guest --cachedir "/mnt/fossil/pacman-cache" \
             base grub intel-ucode linux linux-firmware networkmanager
 
